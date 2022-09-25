@@ -1,6 +1,7 @@
 package com.fitness.enterprise.management.common.di
 
 import com.fitness.enterprise.management.auth.api.AuthUserApi
+import com.fitness.enterprise.management.common.api.gym.branch.GymBranchApi
 import com.fitness.enterprise.management.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -27,5 +28,11 @@ class NetworkModule {
     @Provides
     fun providesAuthUserApi(retrofit: Retrofit) : AuthUserApi {
         return retrofit.create(AuthUserApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesGymBranchApi(retrofit: Retrofit) : GymBranchApi {
+        return retrofit.create(GymBranchApi::class.java)
     }
 }

@@ -1,4 +1,4 @@
-package com.fitness.enterprise.management.common.model
+package com.fitness.enterprise.management.common.api.gym.branch.model
 
 data class GymBranch(
     val gymBranchId: Int,

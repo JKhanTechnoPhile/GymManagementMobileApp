@@ -1,6 +1,6 @@
 package com.fitness.enterprise.management.auth.model
 
-import com.fitness.enterprise.management.common.model.GymBranch
+import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranch
 import com.fitness.enterprise.management.common.model.Role
 
 data class RegisterUserResponse(
