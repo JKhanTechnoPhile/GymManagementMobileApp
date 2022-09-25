@@ -51,20 +51,25 @@ class UserLoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userAuthViewModel.loginUserResponseLiveData.observe(viewLifecycleOwner, {
-            when(it) {
+        userAuthViewModel.loginUserResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
                 is NetworkResult.Success -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     findNavController().navigate(R.id.action_userRegistrationFragment_to_userLoginFragment)
                 }
                 is NetworkResult.Error -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
-                    AlertDialog.showAlert(requireContext(), "User Login", it.message, positiveButtonText = "OK")
+                    AlertDialog.showAlert(
+                        requireContext(),
+                        "User Login",
+                        it.message,
+                        positiveButtonText = "OK"
+                    )
                 }
                 is NetworkResult.Loading -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.VISIBLE
                 }
             }
-        })
+        }
     }
 }

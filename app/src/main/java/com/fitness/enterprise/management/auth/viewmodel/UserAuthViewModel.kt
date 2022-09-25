@@ -1,8 +1,8 @@
 package com.fitness.enterprise.management.auth.viewmodel
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,16 +15,16 @@ import com.fitness.enterprise.management.auth.repository.UserAuthRepository
 import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranch
 import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranchesResponse
 import com.fitness.enterprise.management.common.repository.gymbranch.GymBranchRepository
+import com.fitness.enterprise.management.utils.Constants
 import com.fitness.enterprise.management.utils.Constants.TAG
 import com.fitness.enterprise.management.utils.NetworkResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserAuthViewModel @Inject constructor(@ApplicationContext private val context: Context, private val userAuthRepository: UserAuthRepository, private val gymBranchRepository: GymBranchRepository) : ViewModel() {
+class UserAuthViewModel @Inject constructor(private val userAuthRepository: UserAuthRepository, private val gymBranchRepository: GymBranchRepository) : ViewModel() {
 
     val registerUserResponseLiveData : LiveData<NetworkResult<RegisterUserResponse>>
     get() = userAuthRepository.registerUserLiveData
@@ -39,11 +39,46 @@ class UserAuthViewModel @Inject constructor(@ApplicationContext private val cont
     val selectedGymBranchLiveData: LiveData<GymBranch>
         get() = _selectedGymBranchLiveData
 
+    private val _validationMessageLiveData = MutableLiveData<String>()
+    val validationMessageLiveData: LiveData<String>
+        get() = _validationMessageLiveData
+
     private var selectedBranchIndex: Int? = null
 
-    fun registerUser(registerUserRequest: RegisterUserRequest) {
-        viewModelScope.launch {
-            userAuthRepository.registerUser(registerUserRequest)
+    fun registerUser(emailId: String,
+                     password: String,
+                     phoneNumber: String,
+                     roleType: Int,
+                     userIdNumber: String,
+                     userIdType: String,
+                     userName: String,
+                     userType: String) {
+        val selectedUserBranch = selectedGymBranchLiveData.value
+        val selectedGymBranchCode = selectedUserBranch?.gymCode ?: Constants.EMPTY_STRING
+
+        var validationMessage: String? = null
+
+        if (roleType == Constants.DEFAULT_VALUE || userType == Constants.EMPTY_STRING) {
+            validationMessage = "Please choose user type"
+        } else if (userName == Constants.EMPTY_STRING) {
+            validationMessage = "Please enter user name"
+        } else if (phoneNumber == Constants.EMPTY_STRING) {
+            validationMessage = "Please enter user phone number"
+        } else if (emailId != Constants.EMPTY_STRING && !Patterns.EMAIL_ADDRESS.matcher(emailId).matches()) {
+            validationMessage = "Please enter valid email id"
+        } else if (userIdType != Constants.EMPTY_STRING && userIdNumber == Constants.EMPTY_STRING) {
+            validationMessage = "Please enter valid user id number"
+        } else if (selectedGymBranchCode == Constants.EMPTY_STRING) {
+            validationMessage = "Please choose gym branch"
+        }
+
+        if (validationMessage != null) {
+            _validationMessageLiveData.postValue(validationMessage)
+        } else {
+            val registerUserRequest = RegisterUserRequest(emailId, selectedGymBranchCode, password, phoneNumber, roleType, userIdNumber, userIdType, userName, userType)
+            viewModelScope.launch {
+                userAuthRepository.registerUser(registerUserRequest)
+            }
         }
     }
 
