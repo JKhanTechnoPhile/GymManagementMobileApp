@@ -23,12 +23,16 @@ class UserLoginFragment : Fragment() {
 
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
 
-        binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_userLoginFragment_to_userResetPasswordFragment)
+        binding.signInButton.setOnClickListener {
+
         }
 
-        binding.btnSignUp.setOnClickListener {
+        binding.alreadyHaveAnAccountTextview.setOnClickListener {
             findNavController().navigate(R.id.action_userLoginFragment_to_userRegistrationFragment)
+        }
+
+        binding.forgotPasswordTextview.setOnClickListener {
+            findNavController().navigate(R.id.action_userLoginFragment_to_userResetPasswordFragment)
         }
 
         return binding.root

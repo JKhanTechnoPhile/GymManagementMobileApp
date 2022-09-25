@@ -9,16 +9,23 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fitness.enterprise.management.R
+import com.fitness.enterprise.management.auth.model.RegisterUserRequest
+import com.fitness.enterprise.management.auth.viewmodel.UserAuthViewModel
 import com.fitness.enterprise.management.databinding.FragmentUserRegistrationBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserRegistrationFragment : Fragment() {
 
     private val TAG = UserRegistrationFragment::class.java.name
 
     private var _binding: FragmentUserRegistrationBinding? = null
     private val binding get() = _binding!!
+
+    private val userAuthViewModel by viewModels<UserAuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +51,8 @@ class UserRegistrationFragment : Fragment() {
         }
 
         binding.signUpButton.setOnClickListener {
-
+            val registerUserRequest = RegisterUserRequest("devTestRolePlatformAdmin@gmail.com", "BLRHE", 1, "devTest123", "0123456789", 101, "", "", "", "Dev Test RolePlatformAdmin", "ROLE_PLATFORM_ADMIN")
+            userAuthViewModel.registerUser(registerUserRequest)
         }
         binding.alreadyHaveAnAccountTextview.setOnClickListener {
             findNavController().navigate(R.id.action_userRegistrationFragment_to_userLoginFragment)

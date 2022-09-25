@@ -14,8 +14,9 @@
     <string name="txt_password_hint">........</string>
     <string name="txt_sign_up">Sign Up</string>
     <string name="txt_already_have_account">Already have an account? <font color="#2196F3">Login Now</font></string>
+    <string name="txt_forgot_password">Forgot <font color="#2196F3">Password</font></string>
     <string name="txt_login_header">Welcome Back!</string>
-    <string name="txt_login_subheader">Login to access your notes</string>
+    <string name="txt_login_subheader">Login to access your dashboard</string>
     <string name="txt_login">Login</string>
     <string name="txt_error_message">%1$S*</string>
     <string name="note_title">Title</string>
