@@ -1,19 +1,17 @@
 package com.fitness.enterprise.management.auth.ui
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fitness.enterprise.management.R
-import com.fitness.enterprise.management.auth.model.LoginUserRequest
-import com.fitness.enterprise.management.auth.model.RegisterUserRequest
 import com.fitness.enterprise.management.auth.viewmodel.UserAuthViewModel
+import com.fitness.enterprise.management.dashboard.ui.UserDashboardActivity
 import com.fitness.enterprise.management.databinding.FragmentUserLoginBinding
-import com.fitness.enterprise.management.databinding.FragmentUserRegistrationBinding
 import com.fitness.enterprise.management.utils.AlertDialog
 import com.fitness.enterprise.management.utils.NetworkResult
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,8 +32,7 @@ class UserLoginFragment : Fragment() {
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
 
         binding.signInButton.setOnClickListener {
-            val loginUserRequest = LoginUserRequest("password123", "00123456789")
-            userAuthViewModel.loginUser(loginUserRequest)
+            userAuthViewModel.loginUser(binding.loginUserIdTextField.editText?.text.toString(), binding.loginUserPasswordTextField.editText?.text.toString())
         }
 
         binding.alreadyHaveAnAccountTextview.setOnClickListener {
@@ -55,7 +52,9 @@ class UserLoginFragment : Fragment() {
             when (it) {
                 is NetworkResult.Success -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
-                    findNavController().navigate(R.id.action_userRegistrationFragment_to_userLoginFragment)
+                    val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
+                    requireActivity().startActivity(userDashboardActivity)
+                    requireActivity().finish()
                 }
                 is NetworkResult.Error -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
@@ -70,6 +69,15 @@ class UserLoginFragment : Fragment() {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.VISIBLE
                 }
             }
+        }
+
+        userAuthViewModel.validationMessageLiveData.observe(viewLifecycleOwner) {
+            AlertDialog.showAlert(
+                requireContext(),
+                "User Login",
+                it,
+                positiveButtonText = "OK"
+            )
         }
     }
 }
