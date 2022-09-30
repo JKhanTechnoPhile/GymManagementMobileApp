@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".dashboard.ui.UserDashboardActivity">
+    tools:context=".branch.ui.GymBranchDashboardActivity">
 
     <FrameLayout
-        android:id="@+id/framelayout_activity_user_dashboard"
+        android:id="@+id/framelayout_activity_gym_branch_dashboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80D3D3D3"
@@ -18,24 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/activity_user_dashboard_nav_host_fragment"
+            android:id="@+id/nav_host_user_gym_branch"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/user_dashboard_navigation" />
+            app:navGraph="@navigation/gym_branch_dashboard_navigation" />
     </FrameLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/activity_user_dashboard_bottom_navigation_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/purple_500"
-        app:itemIconTint="@drawable/nav_item_color_state"
-        app:itemTextColor="@drawable/nav_item_color_state"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/user_dashboard_navigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gym_branch_dashboard_navigation.xml"
+    app:startDestination="@id/gymBranchDashboardFragment">
+
+    <fragment
+        android:id="@+id/gymBranchDashboardFragment"
+        android:name="com.fitness.enterprise.management.branch.ui.GymBranchDashboardFragment"
+        android:label="fragment_gym_branch_dashboard"
+        tools:layout="@layout/fragment_gym_branch_dashboard" >
+        <action
+            android:id="@+id/action_gymBranchDashboardFragment_to_registerGymBranchFragment"
+            app:destination="@id/registerGymBranchFragment" />
+        <action
+            android:id="@+id/action_gymBranchDashboardFragment_to_editGymBranchFragment"
+            app:destination="@id/editGymBranchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerGymBranchFragment"
+        android:name="com.fitness.enterprise.management.branch.ui.RegisterGymBranchFragment"
+        android:label="fragment_register_gym_branch"
+        tools:layout="@layout/fragment_register_gym_branch" />
+    <fragment
+        android:id="@+id/editGymBranchFragment"
+        android:name="com.fitness.enterprise.management.branch.ui.EditGymBranchFragment"
+        android:label="fragment_edit_gym_branch"
+        tools:layout="@layout/fragment_edit_gym_branch" />
+</navigation>
