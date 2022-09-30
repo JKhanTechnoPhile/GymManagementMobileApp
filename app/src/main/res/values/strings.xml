@@ -25,4 +25,9 @@
     <string name="txt_description_hint">Write your description</string>
     <string name="txt_submit">Submit</string>
     <string name="add_note">Add Note</string>
+
+    <string name="user_dashboard">Dashboard</string>
+    <string name="user_services">Services</string>
+    <string name="user_reports">Reports</string>
+    <string name="user_profile">Profile</string>
 </resources>

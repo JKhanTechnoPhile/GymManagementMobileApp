@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_dashboard_navigation.xml"
+    app:startDestination="@id/userDashboardFragment">
+
+    <fragment
+        android:id="@+id/userDashboardFragment"
+        android:name="com.fitness.enterprise.management.dashboard.ui.UserDashboardFragment"
+        android:label="fragment_user_dashboard"
+        tools:layout="@layout/fragment_user_dashboard" />
+    <fragment
+        android:id="@+id/userServicesFragment"
+        android:name="com.fitness.enterprise.management.dashboard.ui.UserServicesFragment"
+        android:label="fragment_user_services"
+        tools:layout="@layout/fragment_user_services" />
+    <fragment
+        android:id="@+id/userReportsFragment"
+        android:name="com.fitness.enterprise.management.dashboard.ui.UserReportsFragment"
+        android:label="fragment_user_reports"
+        tools:layout="@layout/fragment_user_reports" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.fitness.enterprise.management.dashboard.ui.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
+</navigation>
