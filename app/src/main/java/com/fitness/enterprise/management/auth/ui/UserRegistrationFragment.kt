@@ -12,12 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fitness.enterprise.management.R
-import com.fitness.enterprise.management.auth.model.RegisterUserRequest
 import com.fitness.enterprise.management.auth.viewmodel.UserAuthViewModel
-import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranch
+import com.fitness.enterprise.management.branch.model.GymBranch
 import com.fitness.enterprise.management.databinding.FragmentUserRegistrationBinding
 import com.fitness.enterprise.management.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserRegistrationFragment : Fragment() {
@@ -32,6 +32,9 @@ class UserRegistrationFragment : Fragment() {
     private var selectedUserRole: UserRoleEnum? = null
     private var selectedUserIdType: UserIdTypeEnum? = null
     private lateinit var selectedUserBranch: GymBranch
+
+    @Inject
+    lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,6 +90,10 @@ class UserRegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        if (!TextUtils.isEmpty(tokenManager.getToken())) {
+//            findNavController().navigate(R.id.action_userRegistrationFragment_to_userLoginFragment)
+//        }
 
         userAuthViewModel.registerUserResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {

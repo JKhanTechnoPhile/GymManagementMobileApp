@@ -2,6 +2,7 @@ package com.fitness.enterprise.management.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,9 @@ import com.fitness.enterprise.management.dashboard.ui.UserDashboardActivity
 import com.fitness.enterprise.management.databinding.FragmentUserLoginBinding
 import com.fitness.enterprise.management.utils.AlertDialog
 import com.fitness.enterprise.management.utils.NetworkResult
+import com.fitness.enterprise.management.utils.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserLoginFragment : Fragment() {
@@ -23,6 +26,9 @@ class UserLoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val userAuthViewModel by viewModels<UserAuthViewModel>()
+
+    @Inject
+    lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +43,7 @@ class UserLoginFragment : Fragment() {
 
         binding.alreadyHaveAnAccountTextview.setOnClickListener {
             findNavController().navigate(R.id.action_userLoginFragment_to_userRegistrationFragment)
+//            findNavController().popBackStack()
         }
 
         binding.forgotPasswordTextview.setOnClickListener {
@@ -52,9 +59,19 @@ class UserLoginFragment : Fragment() {
             when (it) {
                 is NetworkResult.Success -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
-                    val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
-                    requireActivity().startActivity(userDashboardActivity)
-                    requireActivity().finish()
+                    if (!TextUtils.isEmpty(it.data?.token)) {
+                        tokenManager.saveToken(it.data!!.token)
+                        val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
+                        requireActivity().startActivity(userDashboardActivity)
+                        requireActivity().finish()
+                    } else {
+                        AlertDialog.showAlert(
+                            requireContext(),
+                            "User Login",
+                            "Login failed.",
+                            positiveButtonText = "OK"
+                        )
+                    }
                 }
                 is NetworkResult.Error -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE

@@ -1,6 +1,7 @@
 package com.fitness.enterprise.management.auth.viewmodel
 
 import android.app.Activity
+import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -12,9 +13,9 @@ import com.fitness.enterprise.management.auth.model.LoginUserResponse
 import com.fitness.enterprise.management.auth.model.RegisterUserRequest
 import com.fitness.enterprise.management.auth.model.RegisterUserResponse
 import com.fitness.enterprise.management.auth.repository.UserAuthRepository
-import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranch
-import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranchesResponse
-import com.fitness.enterprise.management.common.repository.gymbranch.GymBranchRepository
+import com.fitness.enterprise.management.branch.model.GymBranch
+import com.fitness.enterprise.management.branch.model.GymBranchesResponse
+import com.fitness.enterprise.management.branch.repository.GymBranchRepository
 import com.fitness.enterprise.management.utils.Constants
 import com.fitness.enterprise.management.utils.Constants.TAG
 import com.fitness.enterprise.management.utils.NetworkResult
@@ -58,17 +59,17 @@ class UserAuthViewModel @Inject constructor(private val userAuthRepository: User
 
         var validationMessage: String? = null
 
-        if (roleType == Constants.DEFAULT_VALUE || userType == Constants.EMPTY_STRING) {
+        if (roleType == Constants.DEFAULT_VALUE || TextUtils.isEmpty(userType)) {
             validationMessage = "Please choose user type"
-        } else if (userName == Constants.EMPTY_STRING) {
+        } else if (TextUtils.isEmpty(userName)) {
             validationMessage = "Please enter user name"
-        } else if (phoneNumber == Constants.EMPTY_STRING) {
+        } else if (TextUtils.isEmpty(phoneNumber)) {
             validationMessage = "Please enter user phone number"
-        } else if (emailId != Constants.EMPTY_STRING && !Patterns.EMAIL_ADDRESS.matcher(emailId).matches()) {
+        } else if (!TextUtils.isEmpty(emailId) && !Patterns.EMAIL_ADDRESS.matcher(emailId).matches()) {
             validationMessage = "Please enter valid email id"
-        } else if (userIdType != Constants.EMPTY_STRING && userIdNumber == Constants.EMPTY_STRING) {
+        } else if (!TextUtils.isEmpty(userIdType) && TextUtils.isEmpty(userIdNumber)) {
             validationMessage = "Please enter valid user id number"
-        } else if (selectedGymBranchCode == Constants.EMPTY_STRING) {
+        } else if (TextUtils.isEmpty(selectedGymBranchCode)) {
             validationMessage = "Please choose gym branch"
         }
 
@@ -86,9 +87,9 @@ class UserAuthViewModel @Inject constructor(private val userAuthRepository: User
 
         var validationMessage: String? = null
 
-        if (userName == Constants.EMPTY_STRING) {
+        if (TextUtils.isEmpty(userName)) {
             validationMessage = "Please enter user"
-        } else if (password == Constants.EMPTY_STRING) {
+        } else if (TextUtils.isEmpty(password)) {
             validationMessage = "Please enter user password"
         }
 

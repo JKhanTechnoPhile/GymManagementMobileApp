@@ -1,13 +1,15 @@
 package com.fitness.enterprise.management.common.di
 
+import com.fitness.enterprise.management.auth.api.AuthInterceptor
 import com.fitness.enterprise.management.auth.api.AuthUserApi
-import com.fitness.enterprise.management.common.api.gym.branch.GymBranchApi
+import com.fitness.enterprise.management.branch.api.GymBranchApi
 import com.fitness.enterprise.management.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit.Builder
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -17,22 +19,37 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
+    fun provideRetrofitBuilder(): Builder {
+        return Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Constants.BASE_URL)
-            .build()
     }
 
     @Singleton
     @Provides
-    fun providesAuthUserApi(retrofit: Retrofit) : AuthUserApi {
-        return retrofit.create(AuthUserApi::class.java)
+    fun provideOKHTTPClient(authInterceptor: AuthInterceptor) : OkHttpClient {
+        return OkHttpClient.Builder().addInterceptor(authInterceptor).build()
     }
 
     @Singleton
     @Provides
-    fun providesGymBranchApi(retrofit: Retrofit) : GymBranchApi {
-        return retrofit.create(GymBranchApi::class.java)
+    fun providesAuthUserApi(retrofitBuilder: Builder) : AuthUserApi {
+        return retrofitBuilder.build().create(AuthUserApi::class.java)
     }
+
+//    @Singleton
+//    @Provides
+//    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit {
+//        return Retrofit.Builder()
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(okHttpClient)
+//            .baseUrl(Constants.BASE_URL)
+//            .build()
+//    }
+
+//    @Singleton
+//    @Provides
+//    fun providesGymBranchApi(retrofitBuilder: Builder, client: OkHttpClient) : GymBranchApi {
+//        return retrofitBuilder.client(client).build().create(GymBranchApi::class.java)
+//    }
 }
