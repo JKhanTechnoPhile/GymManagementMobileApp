@@ -8,6 +8,7 @@ import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranch
 import com.fitness.enterprise.management.common.api.gym.branch.model.GymBranchesResponse
 import com.fitness.enterprise.management.utils.Constants
 import com.fitness.enterprise.management.utils.NetworkResult
+import org.json.JSONObject
 import javax.inject.Inject
 
 class GymBranchRepository @Inject constructor(private val gymBranchApi: GymBranchApi) {
@@ -27,7 +28,8 @@ class GymBranchRepository @Inject constructor(private val gymBranchApi: GymBranc
         if (allGymBranches.isSuccessful && allGymBranches.body() != null) {
             _gymBranchesLiveData.postValue(NetworkResult.Success(allGymBranches.body()!!))
         } else if (allGymBranches.errorBody() != null) {
-            _gymBranchesLiveData.postValue(NetworkResult.Error("Something went wrong"))
+            val errorObj = JSONObject(allGymBranches.errorBody()!!.charStream().readText())
+            _gymBranchesLiveData.postValue(NetworkResult.Error(errorObj.getString("message")))
         } else {
             _gymBranchesLiveData.postValue(NetworkResult.Error("Something went wrong"))
         }
@@ -40,7 +42,8 @@ class GymBranchRepository @Inject constructor(private val gymBranchApi: GymBranc
         if (gymBranchDetails.isSuccessful && gymBranchDetails.body() != null) {
             _gymBranchDetailsLiveData.postValue(NetworkResult.Success(gymBranchDetails.body()!!))
         } else if (gymBranchDetails.errorBody() != null) {
-            _gymBranchDetailsLiveData.postValue(NetworkResult.Error("Something went wrong"))
+            val errorObj = JSONObject(gymBranchDetails.errorBody()!!.charStream().readText())
+            _gymBranchDetailsLiveData.postValue(NetworkResult.Error(errorObj.getString("message")))
         } else {
             _gymBranchDetailsLiveData.postValue(NetworkResult.Error("Something went wrong"))
         }
