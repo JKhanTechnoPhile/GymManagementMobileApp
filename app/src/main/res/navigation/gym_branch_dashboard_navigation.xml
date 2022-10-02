@@ -40,5 +40,6 @@
         android:id="@+id/searchGymBranchMapsFragment"
         android:name="com.fitness.enterprise.management.branch.ui.SearchGymBranchMapsFragment"
         android:label="fragment_search_gym_branch_maps"
-        tools:layout="@layout/fragment_search_gym_branch_maps" />
+        tools:layout="@layout/fragment_search_gym_branch_maps" >
+    </fragment>
 </navigation>

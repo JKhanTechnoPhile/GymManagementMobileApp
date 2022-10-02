@@ -92,6 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
+                    android:focusableInTouchMode="false"
                     android:lines="3"
                     android:gravity="top|start"
                     android:scrollHorizontally="false"

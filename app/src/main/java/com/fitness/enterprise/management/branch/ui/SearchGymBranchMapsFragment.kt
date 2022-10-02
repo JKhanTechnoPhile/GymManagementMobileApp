@@ -10,9 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.branch.model.LocationModel
 import com.fitness.enterprise.management.branch.utils.ResponseStatus
 import com.fitness.enterprise.management.branch.viewmodel.SearchGymBranchMapsViewModel
@@ -24,6 +28,7 @@ import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,6 +37,9 @@ import dagger.hilt.android.AndroidEntryPoint
 //https://github.com/Mustufa786
 //https://www.javatpoint.com/kotlin-android-google-map-search-location
 //https://www.geeksforgeeks.org/how-to-implement-current-location-button-feature-in-google-maps-in-android/
+//https://developers.google.com/maps/documentation/android-sdk/views
+//https://developer.android.com/training/location/permissions
+//https://developer.android.com/training/location/retrieve-current
 
 @AndroidEntryPoint
 class SearchGymBranchMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
@@ -61,7 +69,6 @@ class SearchGymBranchMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.On
         MapsInitializer.initialize(requireContext())
         binding.mapView.getMapAsync(this)
 
-//        binding.fetchedLocationAddressTextField.editText?.inputType = InputType.TYPE_NULL
         binding.fetchedLocationAddressTextField.setEndIconOnClickListener {
             if (lastSelectedLocation == null) {
                 AlertDialog.showAlert(
@@ -72,6 +79,14 @@ class SearchGymBranchMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.On
                 )
             } else {
                 Log.d("Fetch Location", "Address: ${lastSelectedLocation?.locationAddress} Lat: ${lastSelectedLocation?.locationLatitude} Long: ${lastSelectedLocation?.locationLongitude}")
+                val bundle = Bundle()
+                val jsonData = Gson().toJson(lastSelectedLocation)
+                bundle.putString("SELECTED_LOCATION_MODEL", jsonData)
+                setFragmentResult(
+                    "ADD_LOCATION",
+                    bundle
+                )
+                findNavController().navigateUp()
             }
         }
 
@@ -168,18 +183,17 @@ class SearchGymBranchMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.On
     }
 
     override fun onResume() {
-        binding.mapView.onResume()
+        if (binding != null) {
+            binding.mapView.onResume()
+        }
         super.onResume()
     }
 
     override fun onPause() {
-        binding.mapView.onPause()
+        if (binding != null) {
+            binding.mapView.onPause()
+        }
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        binding.mapView.onDestroy()
-        super.onDestroy()
     }
 
     override fun onDestroyView() {
@@ -188,7 +202,9 @@ class SearchGymBranchMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.On
     }
 
     override fun onLowMemory() {
-        binding.mapView.onLowMemory()
+        if (binding != null) {
+            binding.mapView.onLowMemory()
+        }
         super.onLowMemory()
     }
 

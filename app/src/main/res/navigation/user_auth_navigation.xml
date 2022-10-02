@@ -25,9 +25,7 @@
         <action
             android:id="@+id/action_userLoginFragment_to_userRegistrationFragment"
             app:destination="@+id/userRegistrationFragment"
-            app:popUpTo="@+id/userRegistrationFragment"
-            app:popUpToInclusive="true"
-            app:popUpToSaveState="true"/>
+            app:popUpTo="@+id/userRegistrationFragment"/>
     </fragment>
     <fragment
         android:id="@+id/userResetPasswordFragment"
