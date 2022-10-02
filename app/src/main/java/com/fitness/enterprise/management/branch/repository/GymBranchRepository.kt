@@ -41,7 +41,7 @@ class GymBranchRepository @Inject constructor(private val gymBranchApi: GymBranc
         }
     }
 
-    suspend fun getGymBrancheDetails(gymCode: Int) {
+    suspend fun getGymBranchDetails(gymCode: Int) {
         _gymBranchDetailsLiveData.postValue(NetworkResult.Loading())
         val gymBranchDetails = gymBranchApi.getGymBranchDetails(gymCode)
         Log.d(Constants.TAG,  gymBranchDetails.body().toString())
