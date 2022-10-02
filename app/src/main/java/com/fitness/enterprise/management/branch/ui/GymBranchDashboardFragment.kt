@@ -51,9 +51,11 @@ class GymBranchDashboardFragment : Fragment() {
         gymBranchDashboardViewModel.gymBranchesData.observe(viewLifecycleOwner) {
             when(it) {
                 is NetworkResult.Success -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     gymBranchesAdapter.submitList(it.data)
                 }
                 is NetworkResult.Error -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     AlertDialog.showAlert(
                         requireContext(),
                         "Gym Branches",
@@ -62,7 +64,7 @@ class GymBranchDashboardFragment : Fragment() {
                     )
                 }
                 is NetworkResult.Loading -> {
-
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.VISIBLE
                 }
             }
         }

@@ -33,6 +33,10 @@ class EditGymBranchFragment : Fragment() {
         val jsonGymBranchDetails = arguments?.getString("gymBranchDetails")
         if (jsonGymBranchDetails != null) {
             gymBranchDetails = Gson().fromJson(jsonGymBranchDetails, GymBranch::class.java)
+            binding.branchNameTextField.editText?.setText(gymBranchDetails.gymName)
+            binding.branchContactTextField.editText?.setText(gymBranchDetails.gymContact)
+            binding.branchFullAddressTextField.editText?.setText(gymBranchDetails.gymFullAddress)
+            binding.branchLocationTextField.editText?.setText("Latitude: ${gymBranchDetails.gymLocationLat} \nLongitude: ${gymBranchDetails.gymLocationLong}")
         }
     }
 

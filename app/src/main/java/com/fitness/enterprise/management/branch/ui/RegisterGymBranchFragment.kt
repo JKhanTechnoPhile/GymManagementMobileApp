@@ -77,6 +77,7 @@ class RegisterGymBranchFragment : Fragment() {
         gymBranchDashboardViewModel.statusLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is NetworkResult.Error -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     AlertDialog.showAlert(
                         requireContext(),
                         "Branch Registration",
@@ -85,9 +86,10 @@ class RegisterGymBranchFragment : Fragment() {
                     )
                 }
                 is NetworkResult.Loading -> {
-
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.VISIBLE
                 }
                 is NetworkResult.Success -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     findNavController().navigateUp()
                 }
             }
@@ -98,6 +100,4 @@ class RegisterGymBranchFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
