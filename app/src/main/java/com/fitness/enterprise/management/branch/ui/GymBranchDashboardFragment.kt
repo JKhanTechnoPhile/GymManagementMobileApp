@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.fitness.enterprise.management.R
+import com.fitness.enterprise.management.branch.model.GymBranch
 import com.fitness.enterprise.management.branch.viewmodel.GymBranchDashboardViewModel
 import com.fitness.enterprise.management.databinding.FragmentGymBranchDashboardBinding
 import com.fitness.enterprise.management.utils.AlertDialog
 import com.fitness.enterprise.management.utils.NetworkResult
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +32,7 @@ class GymBranchDashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGymBranchDashboardBinding.inflate(inflater, container, false)
-        gymBranchesAdapter = GymBranchesAdapter()
+        gymBranchesAdapter = GymBranchesAdapter(::onGymBranchClicked)
         return binding.root
     }
 
@@ -38,6 +42,9 @@ class GymBranchDashboardFragment : Fragment() {
         gymBranchDashboardViewModel.getGymBranches()
         binding.gymBranchesDashboard.layoutManager = LinearLayoutManager(requireContext())//StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.gymBranchesDashboard.adapter = gymBranchesAdapter
+        binding.createBranch.setOnClickListener {
+            findNavController().navigate(R.id.action_gymBranchDashboardFragment_to_registerGymBranchFragment)
+        }
     }
 
     private fun bindObservers() {
@@ -59,6 +66,12 @@ class GymBranchDashboardFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun onGymBranchClicked(gymBranch: GymBranch) {
+        val bundle = Bundle()
+        bundle.putString("gymBranchDetails", Gson().toJson(gymBranch))
+        findNavController().navigate(R.id.action_gymBranchDashboardFragment_to_editGymBranchFragment, bundle)
     }
 
     override fun onDestroyView() {

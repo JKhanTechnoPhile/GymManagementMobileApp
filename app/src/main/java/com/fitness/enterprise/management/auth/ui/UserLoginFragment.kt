@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.auth.viewmodel.UserAuthViewModel
+import com.fitness.enterprise.management.branch.ui.GymBranchDashboardActivity
 import com.fitness.enterprise.management.dashboard.ui.UserDashboardActivity
 import com.fitness.enterprise.management.databinding.FragmentUserLoginBinding
 import com.fitness.enterprise.management.utils.AlertDialog
@@ -61,7 +62,7 @@ class UserLoginFragment : Fragment() {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     if (!TextUtils.isEmpty(it.data?.token)) {
                         tokenManager.saveToken(it.data!!.token)
-                        val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
+                        val userDashboardActivity = Intent(requireActivity(), GymBranchDashboardActivity::class.java)
                         requireActivity().startActivity(userDashboardActivity)
                         requireActivity().finish()
                     } else {

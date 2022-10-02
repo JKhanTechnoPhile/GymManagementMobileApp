@@ -21,10 +21,24 @@
         android:id="@+id/registerGymBranchFragment"
         android:name="com.fitness.enterprise.management.branch.ui.RegisterGymBranchFragment"
         android:label="fragment_register_gym_branch"
-        tools:layout="@layout/fragment_register_gym_branch" />
+        tools:layout="@layout/fragment_register_gym_branch" >
+        <action
+            android:id="@+id/registerBranch"
+            app:destination="@id/gymBranchDashboardFragment"
+            app:popUpTo="@id/gymBranchDashboardFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_registerGymBranchFragment_to_searchGymBranchMapsFragment"
+            app:destination="@id/searchGymBranchMapsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editGymBranchFragment"
         android:name="com.fitness.enterprise.management.branch.ui.EditGymBranchFragment"
         android:label="fragment_edit_gym_branch"
         tools:layout="@layout/fragment_edit_gym_branch" />
+    <fragment
+        android:id="@+id/searchGymBranchMapsFragment"
+        android:name="com.fitness.enterprise.management.branch.ui.SearchGymBranchMapsFragment"
+        android:label="fragment_search_gym_branch_maps"
+        tools:layout="@layout/fragment_search_gym_branch_maps" />
 </navigation>

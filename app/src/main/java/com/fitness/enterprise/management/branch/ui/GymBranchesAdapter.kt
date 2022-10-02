@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fitness.enterprise.management.branch.model.GymBranch
 import com.fitness.enterprise.management.databinding.GymBranchDetailsBinding
 
-class GymBranchesAdapter() : ListAdapter<GymBranch, GymBranchesAdapter.GymBranchViewHolder>(ComparatorDiffUtil()) {
+class GymBranchesAdapter(private val onGymBranchClicked: (GymBranch) -> Unit) : ListAdapter<GymBranch, GymBranchesAdapter.GymBranchViewHolder>(ComparatorDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GymBranchViewHolder {
         val binding = GymBranchDetailsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,6 +26,9 @@ class GymBranchesAdapter() : ListAdapter<GymBranch, GymBranchesAdapter.GymBranch
         fun bind(gymBranchDetails: GymBranch) {
             binding.gymBranchName.text = gymBranchDetails.gymName
             binding.gymBranchOtherDetails.text = gymBranchDetails.gymFullAddress
+            binding.root.setOnClickListener {
+                onGymBranchClicked(gymBranchDetails)
+            }
         }
     }
 
