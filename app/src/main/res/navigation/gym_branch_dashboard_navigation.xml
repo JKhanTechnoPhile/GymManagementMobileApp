@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gym_branch_dashboard_navigation.xml"
+    android:label="Register Gym Branch"
     app:startDestination="@id/gymBranchDashboardFragment">
 
     <fragment
@@ -21,7 +22,7 @@
         android:id="@+id/registerGymBranchFragment"
         android:name="com.fitness.enterprise.management.branch.ui.RegisterGymBranchFragment"
         android:label="fragment_register_gym_branch"
-        tools:layout="@layout/fragment_register_gym_branch" >
+        tools:layout="@layout/fragment_register_gym_branch">
         <action
             android:id="@+id/registerBranch"
             app:destination="@id/gymBranchDashboardFragment"

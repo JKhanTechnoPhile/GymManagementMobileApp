@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -60,6 +61,9 @@ class SearchGymBranchMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.On
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            title = "Search Gym Branch"
+        }
         _binding = FragmentSearchGymBranchMapsBinding.inflate(inflater, container, false)
 
         /**

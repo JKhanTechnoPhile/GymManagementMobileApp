@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.branch.model.GymBranch
@@ -20,6 +21,9 @@ class EditGymBranchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            title = "Edit Gym Branch"
+        }
         _binding = FragmentEditGymBranchBinding.inflate(inflater, container, false)
         return binding.root
     }

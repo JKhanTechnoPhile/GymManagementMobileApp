@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.clearFragmentResultListener
 import androidx.fragment.app.setFragmentResultListener
@@ -36,6 +37,9 @@ class RegisterGymBranchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            title = "Register Gym Branch"
+        }
         _binding = FragmentRegisterGymBranchBinding.inflate(inflater, container, false)
         return binding.root
     }
