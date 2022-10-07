@@ -62,7 +62,7 @@ class UserLoginFragment : Fragment() {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     if (!TextUtils.isEmpty(it.data?.token)) {
                         tokenManager.saveToken(it.data!!.token)
-                        val userDashboardActivity = Intent(requireActivity(), GymBranchDashboardActivity::class.java)
+                        val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
                         requireActivity().startActivity(userDashboardActivity)
                         requireActivity().finish()
                     } else {

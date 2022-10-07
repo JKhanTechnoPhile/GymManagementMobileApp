@@ -15,6 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class GymBranchDashboardActivity : AppCompatActivity() {
 
+//    https://medium.com/androiddevelopers/navigationui-d21fd4f5c318
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
 
