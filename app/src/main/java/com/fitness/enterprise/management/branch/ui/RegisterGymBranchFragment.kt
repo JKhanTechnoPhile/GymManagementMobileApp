@@ -1,7 +1,6 @@
 package com.fitness.enterprise.management.branch.ui
 
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import com.fitness.enterprise.management.branch.model.GymBranchCreateRequest
 import com.fitness.enterprise.management.branch.model.LocationModel
 import com.fitness.enterprise.management.branch.viewmodel.GymBranchDashboardViewModel
 import com.fitness.enterprise.management.databinding.FragmentRegisterGymBranchBinding
-import com.fitness.enterprise.management.databinding.FragmentUserRegistrationBinding
 import com.fitness.enterprise.management.utils.AlertDialog
 import com.fitness.enterprise.management.utils.NetworkResult
 import com.google.gson.Gson

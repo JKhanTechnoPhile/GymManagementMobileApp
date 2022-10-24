@@ -3,30 +3,34 @@ package com.fitness.enterprise.management.auth.ui
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.auth.viewmodel.UserAuthViewModel
-import com.fitness.enterprise.management.branch.ui.GymBranchDashboardActivity
 import com.fitness.enterprise.management.dashboard.ui.UserDashboardActivity
 import com.fitness.enterprise.management.databinding.FragmentUserLoginBinding
-import com.fitness.enterprise.management.utils.AlertDialog
-import com.fitness.enterprise.management.utils.NetworkResult
-import com.fitness.enterprise.management.utils.TokenManager
+import com.fitness.enterprise.management.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserLoginFragment : Fragment() {
 
+    private val TAG = UserLoginFragment::class.java.name
+
     private var _binding: FragmentUserLoginBinding? = null
     private val binding get() = _binding!!
 
     private val userAuthViewModel by viewModels<UserAuthViewModel>()
+
+    private var selectedUserRole: UserRoleEnum? = null
 
     @Inject
     lateinit var tokenManager: TokenManager
@@ -38,8 +42,19 @@ class UserLoginFragment : Fragment() {
 
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
 
+        val userRolesAsList = UserRoleEnum.values()
+        val userRoles = userRolesAsList.map { userRoleEnum -> userRoleEnum.getUserRoleAsString() }
+        val userRolesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, userRoles)
+        (binding.userRoleTextField.editText as? AutoCompleteTextView)?.setAdapter(userRolesAdapter)
+        (binding.userRoleTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, view, position, id ->
+            selectedUserRole = userRolesAsList.get(position)
+            Log.d(TAG, "Selected User Role: ${selectedUserRole?.getUserRoleAsString()} and Code: ${selectedUserRole?.getUserRoleAsCode()}")
+        }
+
         binding.signInButton.setOnClickListener {
-            userAuthViewModel.loginUser(binding.loginUserIdTextField.editText?.text.toString(), binding.loginUserPasswordTextField.editText?.text.toString())
+            val userRoleAsString = selectedUserRole?.getUserRoleAsString()
+            val userRoleAsCode = selectedUserRole?.getUserRoleAsCode()
+            userAuthViewModel.loginUser(binding.loginUserIdTextField.editText?.text.toString(), binding.loginUserPasswordTextField.editText?.text.toString(), userRoleAsCode ?: Constants.DEFAULT_VALUE, userRoleAsString ?: Constants.EMPTY_STRING)
         }
 
         binding.alreadyHaveAnAccountTextview.setOnClickListener {
@@ -61,7 +76,7 @@ class UserLoginFragment : Fragment() {
                 is NetworkResult.Success -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     if (!TextUtils.isEmpty(it.data?.token)) {
-                        tokenManager.saveToken(it.data!!.token)
+                        tokenManager.saveSessionData(it.data!!)
                         val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
                         requireActivity().startActivity(userDashboardActivity)
                         requireActivity().finish()

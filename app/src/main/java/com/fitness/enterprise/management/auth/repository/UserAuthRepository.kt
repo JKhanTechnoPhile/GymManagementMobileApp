@@ -42,7 +42,12 @@ class UserAuthRepository @Inject constructor(private val authUserApi: AuthUserAp
         val loginUserResponse = authUserApi.loginUser(loginUserRequest)
         Log.d(TAG, loginUserResponse.body().toString())
         if (loginUserResponse.isSuccessful && loginUserResponse.body() != null) {
-            _loginUserLiveData.postValue(NetworkResult.Success(loginUserResponse.body()!!))
+
+            val loginResponseFromServer = loginUserResponse.body()!!
+            loginResponseFromServer.userName = loginUserRequest.username
+            loginResponseFromServer.roleType = loginUserRequest.roleType
+
+            _loginUserLiveData.postValue(NetworkResult.Success(loginResponseFromServer))
         } else if (loginUserResponse.errorBody() != null) {
             val errorObj = JSONObject(loginUserResponse.errorBody()!!.charStream().readText())
             _loginUserLiveData.postValue(NetworkResult.Error(errorObj.getString("message")))

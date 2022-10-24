@@ -83,11 +83,13 @@ class UserAuthViewModel @Inject constructor(private val userAuthRepository: User
         }
     }
 
-    fun loginUser(userName: String, password: String) {
+    fun loginUser(userName: String, password: String, roleType: Int, userType: String) {
 
         var validationMessage: String? = null
 
-        if (TextUtils.isEmpty(userName)) {
+        if (roleType == Constants.DEFAULT_VALUE || TextUtils.isEmpty(userType)) {
+            validationMessage = "Please choose user type"
+        } else if (TextUtils.isEmpty(userName)) {
             validationMessage = "Please enter user"
         } else if (TextUtils.isEmpty(password)) {
             validationMessage = "Please enter user password"
@@ -96,7 +98,7 @@ class UserAuthViewModel @Inject constructor(private val userAuthRepository: User
         if (validationMessage != null) {
             _validationMessageLiveData.postValue(validationMessage)
         } else {
-            val loginUserRequest = LoginUserRequest(password, userName)
+            val loginUserRequest = LoginUserRequest(password, userName, roleType)
             viewModelScope.launch {
                 userAuthRepository.loginUser(loginUserRequest)
             }

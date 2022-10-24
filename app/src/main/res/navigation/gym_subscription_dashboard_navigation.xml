@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gym_subscription_dashboard_navigation.xml"
+    app:startDestination="@id/gymSubscriptionDashboardFragment">
+
+    <fragment
+        android:id="@+id/gymSubscriptionDashboardFragment"
+        android:name="com.fitness.enterprise.management.subscription.ui.GymSubscriptionDashboardFragment"
+        android:label="GymSubscriptionDashboardFragment" >
+        <action
+            android:id="@+id/action_gymSubscriptionDashboardFragment_to_createGymSubscriptionFragment"
+            app:destination="@id/createGymSubscriptionFragment" />
+        <action
+            android:id="@+id/action_gymSubscriptionDashboardFragment_to_editGymSubscriptionFragment"
+            app:destination="@id/editGymSubscriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGymSubscriptionFragment"
+        android:name="com.fitness.enterprise.management.subscription.ui.CreateGymSubscriptionFragment"
+        android:label="fragment_create_gym_subscription"
+        tools:layout="@layout/fragment_create_gym_subscription" >
+        <action
+            android:id="@+id/action_createGymSubscriptionFragment_to_showGymBranchesFragment"
+            app:destination="@id/showGymBranchesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editGymSubscriptionFragment"
+        android:name="com.fitness.enterprise.management.subscription.ui.EditGymSubscriptionFragment"
+        android:label="fragment_edit_gym_subscription"
+        tools:layout="@layout/fragment_edit_gym_subscription" >
+        <action
+            android:id="@+id/action_editGymSubscriptionFragment_to_showGymBranchesFragment"
+            app:destination="@id/showGymBranchesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showGymBranchesFragment"
+        android:name="com.fitness.enterprise.management.subscription.ui.ShowGymBranchesFragment"
+        android:label="fragment_show_gym_branches"
+        tools:layout="@layout/fragment_show_gym_branches" />
+</navigation>
