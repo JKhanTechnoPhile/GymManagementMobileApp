@@ -1,19 +1,14 @@
 package com.fitness.enterprise.management.subscription.viewmodel
 
 import android.text.TextUtils
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fitness.enterprise.management.auth.model.RegisterUserRequest
 import com.fitness.enterprise.management.branch.model.GymBranch
-import com.fitness.enterprise.management.branch.model.GymBranchCreateRequest
-import com.fitness.enterprise.management.branch.repository.GymBranchRepository
 import com.fitness.enterprise.management.subscription.model.GymSubscription
 import com.fitness.enterprise.management.subscription.model.GymSubscriptionCreateRequest
 import com.fitness.enterprise.management.subscription.repository.GymSubscriptionRepository
-import com.fitness.enterprise.management.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,18 +46,18 @@ class GymSubscriptionDashboardViewModel @Inject constructor(private val gymSubsc
 
         var validationMessage: String? = null
 
-        if (TextUtils.isEmpty(createGymSubscriptionRequest.gymSubscriptionName)) {
+        if (TextUtils.isEmpty(createGymSubscriptionRequest.gymPlanName)) {
             validationMessage = "Please enter gym subscription plan name"
-        } else if (TextUtils.isEmpty(createGymSubscriptionRequest.gymSubscriptionFrequency)) {
+        } else if (TextUtils.isEmpty(createGymSubscriptionRequest.gymPlanFrequency)) {
             validationMessage = "Please select gym subscription plan"
-        } else if (TextUtils.isEmpty(createGymSubscriptionRequest.gymSubscriptionBaseFare)) {
-            validationMessage = "Please select gym subscription plan fare"
-        } else if (TextUtils.isEmpty(createGymSubscriptionRequest.gymSubscriptionStartDate)) {
+        } else if (createGymSubscriptionRequest.gymPlanBaseFare == 0.0f) {
+            validationMessage = "Please select gym subscription base price"
+        } else if (createGymSubscriptionRequest.gymPlanCreatedDate == null) {
             validationMessage = "Please enter gym subscription start date"
-        } else if (TextUtils.isEmpty(createGymSubscriptionRequest.gymSubscriptionEndDate)) {
+        } else if (createGymSubscriptionRequest.gymPlanEndDate == null) {
             validationMessage = "Please enter gym subscription end date"
         } else if (TextUtils.isEmpty(createGymSubscriptionRequest.gymBranchCode)) {
-            validationMessage = "Please select gym, under which subsciprion plan is required"
+            validationMessage = "Please select gym, under which subscription plan is required"
         }
 
         if (validationMessage != null) {

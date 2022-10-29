@@ -6,8 +6,8 @@ enum class GymSubscriptionEnum {
             return "One time registration"
         }
 
-        override fun getGymSubscriptionPlanAsCode(): Int {
-            return 101
+        override fun getGymSubscriptionPlanAsCode(): String {
+            return "GYM_ONE_TIME_REGISTRATION"
         }
     },
     GYM_PLAN_FREQUENCY_ONE_MONTH {
@@ -15,8 +15,8 @@ enum class GymSubscriptionEnum {
             return "One month subscription plan"
         }
 
-        override fun getGymSubscriptionPlanAsCode(): Int {
-            return 102
+        override fun getGymSubscriptionPlanAsCode(): String {
+            return "GYM_PLAN_FREQUENCY_ONE_MONTH"
         }
     },
     GYM_PLAN_FREQUENCY_TWO_MONTHS {
@@ -24,8 +24,8 @@ enum class GymSubscriptionEnum {
             return "Two month subscription plan"
         }
 
-        override fun getGymSubscriptionPlanAsCode(): Int {
-            return 103
+        override fun getGymSubscriptionPlanAsCode(): String {
+            return "GYM_PLAN_FREQUENCY_TWO_MONTHS"
         }
     },
     GYM_PLAN_FREQUENCY_QUARTERLY {
@@ -33,8 +33,8 @@ enum class GymSubscriptionEnum {
             return "Quarterly subscription plan"
         }
 
-        override fun getGymSubscriptionPlanAsCode(): Int {
-            return 104
+        override fun getGymSubscriptionPlanAsCode(): String {
+            return "GYM_PLAN_FREQUENCY_QUARTERLY"
         }
     },
     GYM_PLAN_FREQUENCY_HALF_YEARLY {
@@ -42,8 +42,8 @@ enum class GymSubscriptionEnum {
             return "Half yearly subscription plan"
         }
 
-        override fun getGymSubscriptionPlanAsCode(): Int {
-            return 105
+        override fun getGymSubscriptionPlanAsCode(): String {
+            return "GYM_PLAN_FREQUENCY_HALF_YEARLY"
         }
     },
     GYM_PLAN_FREQUENCY_YEARLY {
@@ -51,11 +51,11 @@ enum class GymSubscriptionEnum {
             return "Yearly subscription plan"
         }
 
-        override fun getGymSubscriptionPlanAsCode(): Int {
-            return 106
+        override fun getGymSubscriptionPlanAsCode(): String {
+            return "GYM_PLAN_FREQUENCY_YEARLY"
         }
     };
 
     abstract fun getGymSubscriptionPlanAsString(): String
-    abstract fun getGymSubscriptionPlanAsCode(): Int
+    abstract fun getGymSubscriptionPlanAsCode(): String
 }

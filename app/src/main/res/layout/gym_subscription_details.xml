@@ -26,6 +26,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/sf_pro_display_regular"
         android:text="Gym Subscription Frequency"
+        android:visibility="gone"
         android:textColor="#000"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

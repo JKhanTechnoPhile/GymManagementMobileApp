@@ -8,7 +8,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface GymSubscriptionApi {
-    @GET("/api/subscriptions")
+    @GET("/api/subscriptions/")
     suspend fun getAllGymSubscriptions() : Response<GymSubscriptionResponse>
 
     @GET("/api/branches/{gymCode}")
@@ -17,7 +17,7 @@ interface GymSubscriptionApi {
     @GET("/api/branches/{gymCode}/{gymSubscriptionPlanCode}")
     suspend fun getGymSubscriptionDetails(@Path("gymCode") gymCode: Int, @Path("gymSubscriptionPlanCode") gymSubscriptionPlanCode: Int) : Response<GymSubscription>
 
-    @POST("/api/subscriptions")
+    @POST("/api/subscriptions/")
     suspend fun createGymSubscription(@Body createGymSubscriptionRequest: GymSubscriptionCreateRequest) : Response<GymSubscription>
 
     @PUT("/api/branches/{gymCode}/{gymSubscriptionPlanCode}")
