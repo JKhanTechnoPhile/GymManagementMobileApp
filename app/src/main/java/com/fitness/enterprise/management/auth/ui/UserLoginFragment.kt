@@ -43,16 +43,16 @@ class UserLoginFragment : Fragment() {
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
 
         val userRolesAsList = UserRoleEnum.values()
-        val userRoles = userRolesAsList.map { userRoleEnum -> userRoleEnum.getUserRoleAsString() }
+        val userRoles = userRolesAsList.map { userRoleEnum -> userRoleEnum.getUserRoleAsStringForUi() }
         val userRolesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, userRoles)
         (binding.userRoleTextField.editText as? AutoCompleteTextView)?.setAdapter(userRolesAdapter)
         (binding.userRoleTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, view, position, id ->
             selectedUserRole = userRolesAsList.get(position)
-            Log.d(TAG, "Selected User Role: ${selectedUserRole?.getUserRoleAsString()} and Code: ${selectedUserRole?.getUserRoleAsCode()}")
+            Log.d(TAG, "Selected User Role: ${selectedUserRole?.getUserRoleAsStringForUi()} and Code: ${selectedUserRole?.getUserRoleAsCode()}")
         }
 
         binding.signInButton.setOnClickListener {
-            val userRoleAsString = selectedUserRole?.getUserRoleAsString()
+            val userRoleAsString = selectedUserRole?.getUserRoleAsStringForServer()
             val userRoleAsCode = selectedUserRole?.getUserRoleAsCode()
             userAuthViewModel.loginUser(binding.loginUserIdTextField.editText?.text.toString(), binding.loginUserPasswordTextField.editText?.text.toString(), userRoleAsCode ?: Constants.DEFAULT_VALUE, userRoleAsString ?: Constants.EMPTY_STRING)
         }

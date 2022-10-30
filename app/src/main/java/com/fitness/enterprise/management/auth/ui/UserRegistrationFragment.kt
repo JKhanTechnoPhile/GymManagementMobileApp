@@ -43,12 +43,12 @@ class UserRegistrationFragment : Fragment() {
 
         _binding = FragmentUserRegistrationBinding.inflate(inflater, container, false)
         val userRolesAsList = UserRoleEnum.values()
-        val userRoles = userRolesAsList.map { userRoleEnum -> userRoleEnum.getUserRoleAsString() }
+        val userRoles = userRolesAsList.map { userRoleEnum -> userRoleEnum.getUserRoleAsStringForUi() }
         val userRolesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, userRoles)
         (binding.userRoleTextField.editText as? AutoCompleteTextView)?.setAdapter(userRolesAdapter)
         (binding.userRoleTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, view, position, id ->
             selectedUserRole = userRolesAsList.get(position)
-            Log.d(TAG, "Selected User Role: ${selectedUserRole?.getUserRoleAsString()} and Code: ${selectedUserRole?.getUserRoleAsCode()}")
+            Log.d(TAG, "Selected User Role: ${selectedUserRole?.getUserRoleAsStringForUi()} and Code: ${selectedUserRole?.getUserRoleAsCode()}")
         }
 
 //        https://developer.android.com/codelabs/camerax-getting-started#0
@@ -64,7 +64,7 @@ class UserRegistrationFragment : Fragment() {
 
         binding.signUpButton.setOnClickListener {
 
-            val userRoleAsString = selectedUserRole?.getUserRoleAsString()
+            val userRoleAsString = selectedUserRole?.getUserRoleAsStringForServer()
             val userRoleAsCode = selectedUserRole?.getUserRoleAsCode()
             val userName = binding.userNameTextField.editText?.text.toString()
             val userPhoneNumber = binding.userPhoneNumberTextField.editText?.text.toString()

@@ -2,8 +2,12 @@ package com.fitness.enterprise.management.utils
 
 enum class UserRoleEnum {
     ROLE_PLATFORM_ADMIN {
-        override fun getUserRoleAsString(): String {
+        override fun getUserRoleAsStringForUi(): String {
             return "Platform Admin"
+        }
+
+        override fun getUserRoleAsStringForServer(): String {
+            return "ROLE_PLATFORM_ADMIN"
         }
 
         override fun getUserRoleAsCode(): Int {
@@ -11,8 +15,12 @@ enum class UserRoleEnum {
         }
     },
     ROLE_BRANCH_ADMIN {
-        override fun getUserRoleAsString(): String {
+        override fun getUserRoleAsStringForUi(): String {
             return "Branch Admin"
+        }
+
+        override fun getUserRoleAsStringForServer(): String {
+            return "ROLE_BRANCH_ADMIN"
         }
 
         override fun getUserRoleAsCode(): Int {
@@ -20,8 +28,12 @@ enum class UserRoleEnum {
         }
     },
     ROLE_BRANCH_MANAGER {
-        override fun getUserRoleAsString(): String {
+        override fun getUserRoleAsStringForUi(): String {
             return "Branch Manager"
+        }
+
+        override fun getUserRoleAsStringForServer(): String {
+            return "ROLE_BRANCH_MANAGER"
         }
 
         override fun getUserRoleAsCode(): Int {
@@ -29,6 +41,7 @@ enum class UserRoleEnum {
         }
     };
 
-    abstract fun getUserRoleAsString(): String
+    abstract fun getUserRoleAsStringForUi(): String
+    abstract fun getUserRoleAsStringForServer(): String
     abstract fun getUserRoleAsCode(): Int
 }
