@@ -17,4 +17,8 @@ object Constants {
         val formatter = DecimalFormat("###,###,##0.00")
         return formatter.format(amount.toDouble())
     }
+
+    fun getCustomerStatus(customerStatus: String): String {
+        return CustomerServiceEnum.valueOf(customerStatus).getUserRoleAsStringForUi()
+    }
 }

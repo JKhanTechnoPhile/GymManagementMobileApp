@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.branch.ui.GymBranchDashboardActivity
 import com.fitness.enterprise.management.common.ui.generic.recyclerview.GenericListAdapter
+import com.fitness.enterprise.management.customer.ui.CustomerServiceDashboardActivity
 import com.fitness.enterprise.management.dashboard.ui.model.GenericListAdapterDataClass
 import com.fitness.enterprise.management.databinding.FragmentUserServicesBinding
 import com.fitness.enterprise.management.subscription.ui.GymSubscriptionDashboardActivity
-import com.fitness.enterprise.management.utils.AlertDialog
 import com.fitness.enterprise.management.utils.DashboardServicesEnum
-import com.fitness.enterprise.management.utils.UserRoleEnum
 import com.google.android.material.textview.MaterialTextView
 
 class UserServicesFragment : Fragment() {
@@ -50,6 +49,9 @@ class UserServicesFragment : Fragment() {
 //                            positiveButtonText = "OK"
 //                        )
                         when(item.enum) {
+                            DashboardServicesEnum.DASHBOARD_SERVICE_CUSTOMER -> {
+                                requireActivity().startActivity(Intent(requireActivity(), CustomerServiceDashboardActivity::class.java))
+                            }
                             DashboardServicesEnum.DASHBOARD_SERVICE_GYM_BRANCH -> {
                                 requireActivity().startActivity(Intent(requireActivity(), GymBranchDashboardActivity::class.java))
                             }

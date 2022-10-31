@@ -1,6 +1,15 @@
 package com.fitness.enterprise.management.utils
 
 enum class DashboardServicesEnum {
+    DASHBOARD_SERVICE_CUSTOMER {
+        override fun getServiceName(): String {
+            return "Customer Services"
+        }
+
+        override fun getServiceDescription(): String {
+            return "Facilitate to register new or edit or view customer."
+        }
+    },
     DASHBOARD_SERVICE_GYM_BRANCH {
         override fun getServiceName(): String {
             return "Gym Branch Services"

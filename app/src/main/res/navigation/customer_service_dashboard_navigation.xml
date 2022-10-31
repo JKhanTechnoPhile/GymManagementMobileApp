@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customer_service_dashboard_navigation"
+    app:startDestination="@id/customerServiceDashboardFragment">
+
+    <fragment
+        android:id="@+id/customerServiceDashboardFragment"
+        android:name="com.fitness.enterprise.management.customer.ui.CustomerServiceDashboardFragment"
+        android:label="fragment_customer_service_dashboard"
+        tools:layout="@layout/fragment_customer_service_dashboard" >
+        <action
+            android:id="@+id/action_customerServiceDashboardFragment_to_customerEnquiryFragment"
+            app:destination="@id/customerEnquiryFragment" />
+        <action
+            android:id="@+id/action_customerServiceDashboardFragment_to_customerOnboardingFragment"
+            app:destination="@id/customerOnboardingFragment" />
+        <action
+            android:id="@+id/action_customerEnquiryFragment_to_customerOnboardingFragment"
+            app:destination="@id/customerOnboardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customerEnquiryFragment"
+        android:name="com.fitness.enterprise.management.customer.ui.CustomerEnquiryFragment"
+        android:label="fragment_customer_enquiry"
+        tools:layout="@layout/fragment_customer_enquiry" >
+    </fragment>
+    <fragment
+        android:id="@+id/customerOnboardingFragment"
+        android:name="com.fitness.enterprise.management.customer.ui.CustomerOnboardingFragment"
+        android:label="fragment_customer_onboarding"
+        tools:layout="@layout/fragment_customer_onboarding" >
+        <action
+            android:id="@+id/action_customerOnboardingFragment_to_customerPlanBreakUpFragment"
+            app:destination="@id/customerPlanBreakUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseSubscriptionPlansFragment"
+        android:name="com.fitness.enterprise.management.customer.ui.ChooseSubscriptionPlansFragment"
+        android:label="fragment_choose_subscription_plans"
+        tools:layout="@layout/fragment_choose_subscription_plans" />
+    <fragment
+        android:id="@+id/customerPlanBreakUpFragment"
+        android:name="com.fitness.enterprise.management.customer.ui.CustomerPlanBreakUpFragment"
+        android:label="fragment_customer_plan_break_up"
+        tools:layout="@layout/fragment_customer_plan_break_up" >
+        <action
+            android:id="@+id/action_customerPlanBreakUpFragment_to_chooseSubscriptionPlansFragment"
+            app:destination="@id/chooseSubscriptionPlansFragment" />
+    </fragment>
+</navigation>
