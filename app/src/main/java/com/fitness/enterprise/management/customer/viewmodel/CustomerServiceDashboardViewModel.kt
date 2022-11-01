@@ -1,14 +1,13 @@
 package com.fitness.enterprise.management.customer.viewmodel
 
 import android.text.TextUtils
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fitness.enterprise.management.customer.model.CustomerDetails
 import com.fitness.enterprise.management.customer.repository.CustomerRepository
-import com.fitness.enterprise.management.utils.Constants
-import com.fitness.enterprise.management.utils.CustomerServiceEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,22 +53,37 @@ class CustomerServiceDashboardViewModel @Inject constructor(private val customer
         }
     }
 
-    fun createCustomer(customerDetails: CustomerDetails) {
+    fun enquireCustomer(customerDetails: CustomerDetails) {
+        viewModelScope.launch {
+            customerRepository.createCustomer(customerDetails)
+        }
+    }
+
+    fun registerCustomer(customerDetails: CustomerDetails) {
         var validationMessage: String? = null
 
-        if (TextUtils.isEmpty(customerDetails.customerName)) {
+        if (customerDetails.id == null) {
+            validationMessage = "Customer doesn't have system generated Id"
+        } else if (TextUtils.isEmpty(customerDetails.customerName)) {
             validationMessage = "Please enter customer name"
         } else if (TextUtils.isEmpty(customerDetails.customerPhoneNumber)) {
             validationMessage = "Please enter customer contact"
-        } else if (customerDetails.customerStatus != CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer() && customerDetails.gymSubscriptionPlanCode == Constants.DEFAULT_VALUE) {
-            validationMessage = "Please select gym subscription"
+        } else if (!TextUtils.isEmpty(customerDetails.customerEmailId) && !Patterns.EMAIL_ADDRESS.matcher(customerDetails.customerEmailId).matches()) {
+            validationMessage = "Please enter valid email id"
+        } else if (!TextUtils.isEmpty(customerDetails.customerIdType) && TextUtils.isEmpty(customerDetails.customerIdProof)) {
+            validationMessage = "Please enter valid user id number"
         }
+//        else if (customerDetails.customerStatus != CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer() && customerDetails.gymSubscriptionPlanCode == Constants.DEFAULT_VALUE) {
+//            validationMessage = "Please select gym subscription"
+//        }
 
         if (validationMessage != null) {
             _validationMessageLiveData.postValue(validationMessage)
         } else {
             viewModelScope.launch {
-                customerRepository.createCustomer(customerDetails)
+                customerDetails.id?.let {
+                    customerRepository.updateCustomerToRegister(it, customerDetails)
+                }
             }
         }
     }

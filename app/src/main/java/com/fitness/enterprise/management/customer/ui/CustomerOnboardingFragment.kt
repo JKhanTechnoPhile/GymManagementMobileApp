@@ -10,12 +10,12 @@ import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.customer.model.CustomerDetails
 import com.fitness.enterprise.management.customer.viewmodel.CustomerServiceDashboardViewModel
 import com.fitness.enterprise.management.databinding.FragmentCustomerOnboardingBinding
-import com.fitness.enterprise.management.utils.Constants
-import com.fitness.enterprise.management.utils.UserIdTypeEnum
+import com.fitness.enterprise.management.utils.*
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,8 +67,69 @@ class CustomerOnboardingFragment : Fragment() {
         setInitialData()
 
         binding.registerCustomerButton.setOnClickListener {
+            val customerName = binding.customerNameTextField.editText?.text.toString()
+            val customerPhoneNumber = binding.customerPhoneNumberTextField.editText?.text.toString()
+            val customerEmailId = binding.customerEmailIdTextField.editText?.text.toString()
+            val customerIdAsString = selectedCustomerIdType?.getUserIdAsString()
+            val customerIdNumber = binding.customerIdNumberTextField.editText?.text.toString()
+            val oneTimeRegistrationFee = binding.registrationFeeTextField.editText?.text.toString()
 
+            val customerDetailsDuringReg = customerDetails?.copy(
+                customerName = customerName,
+                customerPhoneNumber = customerPhoneNumber,
+                customerEmailId = customerEmailId,
+                customerStatus = CustomerServiceEnum.CUSTOMER_REGISTERED.getUserRoleAsStringForServer(),
+                customerIdType = customerIdAsString,
+                customerIdProof = customerIdNumber
+            )
+
+            customerDetailsDuringReg?.let {
+                customerServiceDashboardViewModel.registerCustomer(it)
+            }
         }
+
+        customerServiceDashboardViewModel.validationMessageLiveData.observe(viewLifecycleOwner) {
+            AlertDialog.showAlert(
+                requireContext(),
+                "Customer Registration",
+                it,
+                positiveButtonText = "OK"
+            )
+        }
+
+        customerServiceDashboardViewModel.statusLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is NetworkResult.Error -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
+                    AlertDialog.showAlert(
+                        requireContext(),
+                        "Customer Service",
+                        it.message,
+                        positiveButtonText = "OK"
+                    )
+                }
+                is NetworkResult.Loading -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.VISIBLE
+                }
+                is NetworkResult.Success -> {
+                    binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
+                }
+            }
+        }
+
+        customerServiceDashboardViewModel.customerDetailsData.observe(viewLifecycleOwner) {
+            it.data?.let { customerDetails ->
+                navigateToCustomerPlanBreakupFragment(customerDetails)
+                customerServiceDashboardViewModel.customerDetailsData.removeObservers(viewLifecycleOwner)
+            }
+        }
+    }
+
+    private fun navigateToCustomerPlanBreakupFragment(customerDetails: CustomerDetails) {
+        Log.d(Constants.TAG, "CustomerDetails: $customerDetails")
+        val bundle = Bundle()
+        bundle.putString("customerDetails", Gson().toJson(customerDetails))
+        findNavController().navigate(R.id.action_customerOnboardingFragment_to_customerPlanBreakUpFragment, bundle)
     }
 
     private fun setInitialData() {

@@ -27,4 +27,7 @@ interface CustomerApi {
     @PUT("/api/customers/{gymCode}/{contactNumber}/")
     suspend fun updateCustomer(@Path("gymCode") gymCode: String, @Path("contactNumber") contactNumber: String, @Body customerDetails: CustomerDetails) : Response<CustomerDetails>
 
+    @PUT("/api/customers/{customerId}/")
+    suspend fun updateCustomerToRegister(@Path("customerId") customerId: Int, @Body customerDetails: CustomerDetails) : Response<CustomerDetails>
+
 }

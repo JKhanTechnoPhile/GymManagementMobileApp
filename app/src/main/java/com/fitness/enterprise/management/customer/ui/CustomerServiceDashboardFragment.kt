@@ -16,6 +16,7 @@ import com.fitness.enterprise.management.customer.viewmodel.CustomerServiceDashb
 import com.fitness.enterprise.management.databinding.FragmentCustomerServiceDashboardBinding
 import com.fitness.enterprise.management.utils.AlertDialog
 import com.fitness.enterprise.management.utils.Constants
+import com.fitness.enterprise.management.utils.CustomerServiceEnum
 import com.fitness.enterprise.management.utils.NetworkResult
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,11 +57,22 @@ class CustomerServiceDashboardFragment : Fragment() {
         }
     }
 
-    val customerEnquiryCallback : (CustomerDetails) -> Unit = {
-        Log.d(Constants.TAG, "CustomerDetails: $it")
+    private val customerEnquiryCallback : (CustomerDetails) -> Unit = {
+        navigateToCustomerOnBoardingFragment(it)
+    }
+
+    private fun navigateToCustomerOnBoardingFragment(customerDetails: CustomerDetails) {
+        Log.d(Constants.TAG, "CustomerDetails: $customerDetails")
         val bundle = Bundle()
-        bundle.putString("customerDetails", Gson().toJson(it))
+        bundle.putString("customerDetails", Gson().toJson(customerDetails))
         findNavController().navigate(R.id.action_customerEnquiryFragment_to_customerOnboardingFragment, bundle)
+    }
+
+    private fun navigateToCustomerPlanBreakupFragment(customerDetails: CustomerDetails) {
+        Log.d(Constants.TAG, "CustomerDetails: $customerDetails")
+        val bundle = Bundle()
+        bundle.putString("customerDetails", Gson().toJson(customerDetails))
+        findNavController().navigate(R.id.action_customerServiceDashboardFragment_to_customerPlanBreakUpFragment, bundle)
     }
 
     private fun bindObservers() {
@@ -87,10 +99,20 @@ class CustomerServiceDashboardFragment : Fragment() {
     }
 
     private fun onCustomerClicked(customerDetails: CustomerDetails) {
-        //TODO: Decide based on customer status
-//        val bundle = Bundle()
-//        bundle.putString("customerDetails", Gson().toJson(customerDetails))
-//        findNavController().navigate(R.id.action_gymSubscriptionDashboardFragment_to_editGymSubscriptionFragment, bundle)
+        when(customerDetails.customerStatus) {
+            CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer() -> {
+                navigateToCustomerOnBoardingFragment(customerDetails)
+            }
+            CustomerServiceEnum.CUSTOMER_REGISTERED.getUserRoleAsStringForServer() -> {
+                navigateToCustomerPlanBreakupFragment(customerDetails)
+            }
+            CustomerServiceEnum.CUSTOMER_PLAN_ACTIVE.getUserRoleAsStringForServer() -> {
+                //TODO: Show plan customer and plan details
+            }
+            CustomerServiceEnum.CUSTOMER_PLAN_INACTIVE.getUserRoleAsStringForServer() -> {
+                navigateToCustomerPlanBreakupFragment(customerDetails)
+            }
+        }
     }
 
     override fun onDestroyView() {

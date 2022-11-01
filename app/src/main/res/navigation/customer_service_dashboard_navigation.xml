@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_customerEnquiryFragment_to_customerOnboardingFragment"
             app:destination="@id/customerOnboardingFragment" />
+        <action
+            android:id="@+id/action_customerServiceDashboardFragment_to_customerPlanBreakUpFragment"
+            app:destination="@id/customerPlanBreakUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/customerEnquiryFragment"
@@ -48,5 +51,8 @@
         <action
             android:id="@+id/action_customerPlanBreakUpFragment_to_chooseSubscriptionPlansFragment"
             app:destination="@id/chooseSubscriptionPlansFragment" />
+        <action
+            android:id="@+id/action_customerPlanBreakUpFragment_to_customerServiceDashboardFragment3"
+            app:popUpTo="@id/customerServiceDashboardFragment" />
     </fragment>
 </navigation>

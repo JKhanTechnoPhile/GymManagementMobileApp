@@ -86,20 +86,14 @@ class CustomerEnquiryBottomSheet : BottomSheetDialogFragment() {
             }
 
             if (!TextUtils.isEmpty(customerName) && !TextUtils.isEmpty(customerContact)) {
-                customerServiceDashboardViewModel.createCustomer(
+                customerServiceDashboardViewModel.enquireCustomer(
                     CustomerDetails(
                         customerName = customerName,
                         customerPhoneNumber = customerContact,
                         customerEmailId = customerEmail,
                         customerStatus = CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer()
-                    ))
-//                customerEnquiryCallback(
-//                    CustomerDetails(
-//                    customerName = customerName,
-//                    customerPhoneNumber = customerContact,
-//                    customerEmailId = customerEmail,
-//                    customerStatus = CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer()
-//                    ))
+                    )
+                )
             }
         }
 

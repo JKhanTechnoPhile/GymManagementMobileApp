@@ -110,6 +110,20 @@ class CustomerRepository @Inject constructor(private val customerApi: CustomerAp
         }
     }
 
+    suspend fun updateCustomerToRegister(customerId: Int, customerDetails: CustomerDetails) {
+        _statusLiveData.postValue(NetworkResult.Loading())
+        val response = customerApi.updateCustomerToRegister(customerId, customerDetails)
+        if (response.isSuccessful && response.body() != null) {
+            _statusLiveData.postValue(NetworkResult.Success("Customer added successfully"))
+            _customerDetailsLiveData.postValue(NetworkResult.Success(response.body()!!))
+        } else if (response.errorBody() != null) {
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            _statusLiveData.postValue(NetworkResult.Error(errorObj.getString("message")))
+        } else {
+            _statusLiveData.postValue(NetworkResult.Error("Something went wrong"))
+        }
+    }
+
     suspend fun updateCustomerDetails(gymCode: String, contactNumber: String, customerDetails: CustomerDetails) {
         _statusLiveData.postValue(NetworkResult.Loading())
         val response = customerApi.updateCustomer(gymCode, contactNumber, customerDetails)
