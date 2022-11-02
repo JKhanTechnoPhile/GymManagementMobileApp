@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fitness.enterprise.management.auth.di.SessionManager
 import com.fitness.enterprise.management.customer.model.CustomerDetails
 import com.fitness.enterprise.management.customer.repository.CustomerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CustomerServiceDashboardViewModel @Inject constructor(private val customerRepository: CustomerRepository) : ViewModel() {
+class CustomerServiceDashboardViewModel @Inject constructor(private val customerRepository: CustomerRepository, private val sessionManager: SessionManager) : ViewModel() {
 
     val customersData get() = customerRepository.customersLiveData
     val customerDetailsData get() = customerRepository.customerDetailsLiveData
@@ -51,6 +52,10 @@ class CustomerServiceDashboardViewModel @Inject constructor(private val customer
         viewModelScope.launch {
             customerRepository.getCustomerByGymCodeAndContact(gymCode, contactNumber)
         }
+    }
+
+    fun getBranchCode() : String? {
+        return sessionManager.loginUserLiveData.value?.loggedInUser?.gymBranchCode
     }
 
     fun enquireCustomer(customerDetails: CustomerDetails) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/gym_branch_details_background"
-    android:layout_margin="8dp"
+    android:layout_margin="10dp"
     android:padding="16dp">
 
     <com.google.android.material.textview.MaterialTextView

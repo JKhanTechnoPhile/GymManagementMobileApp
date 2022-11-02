@@ -91,7 +91,8 @@ class CustomerEnquiryBottomSheet : BottomSheetDialogFragment() {
                         customerName = customerName,
                         customerPhoneNumber = customerContact,
                         customerEmailId = customerEmail,
-                        customerStatus = CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer()
+                        customerStatus = CustomerServiceEnum.CUSTOMER_ENQUIRED.getUserRoleAsStringForServer(),
+                        gymBranchCode = customerServiceDashboardViewModel.getBranchCode()
                     )
                 )
             }

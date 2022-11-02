@@ -16,9 +16,11 @@ import com.fitness.enterprise.management.R
 import com.fitness.enterprise.management.auth.viewmodel.UserAuthViewModel
 import com.fitness.enterprise.management.dashboard.ui.UserDashboardActivity
 import com.fitness.enterprise.management.databinding.FragmentUserLoginBinding
-import com.fitness.enterprise.management.utils.*
+import com.fitness.enterprise.management.utils.AlertDialog
+import com.fitness.enterprise.management.utils.Constants
+import com.fitness.enterprise.management.utils.NetworkResult
+import com.fitness.enterprise.management.utils.UserRoleEnum
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserLoginFragment : Fragment() {
@@ -31,9 +33,6 @@ class UserLoginFragment : Fragment() {
     private val userAuthViewModel by viewModels<UserAuthViewModel>()
 
     private var selectedUserRole: UserRoleEnum? = null
-
-    @Inject
-    lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +75,6 @@ class UserLoginFragment : Fragment() {
                 is NetworkResult.Success -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
                     if (!TextUtils.isEmpty(it.data?.token)) {
-                        tokenManager.saveSessionData(it.data!!)
                         val userDashboardActivity = Intent(requireActivity(), UserDashboardActivity::class.java)
                         requireActivity().startActivity(userDashboardActivity)
                         requireActivity().finish()

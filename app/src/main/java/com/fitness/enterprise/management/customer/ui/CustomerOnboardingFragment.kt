@@ -72,7 +72,6 @@ class CustomerOnboardingFragment : Fragment() {
             val customerEmailId = binding.customerEmailIdTextField.editText?.text.toString()
             val customerIdAsString = selectedCustomerIdType?.getUserIdAsString()
             val customerIdNumber = binding.customerIdNumberTextField.editText?.text.toString()
-            val oneTimeRegistrationFee = binding.registrationFeeTextField.editText?.text.toString()
 
             val customerDetailsDuringReg = customerDetails?.copy(
                 customerName = customerName,
@@ -143,8 +142,6 @@ class CustomerOnboardingFragment : Fragment() {
             binding.customerIdTypeTextField.editText?.setText(it.customerIdType)
 
             binding.customerIdNumberTextField.editText?.setText(it.customerIdProof)
-
-            binding.registrationFeeTextField.editText?.setText("100")
         }
     }
 }

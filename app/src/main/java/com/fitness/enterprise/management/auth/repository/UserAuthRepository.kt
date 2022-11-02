@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fitness.enterprise.management.auth.api.AuthUserApi
+import com.fitness.enterprise.management.auth.di.SessionManager
 import com.fitness.enterprise.management.auth.model.LoginUserRequest
 import com.fitness.enterprise.management.auth.model.LoginUserResponse
 import com.fitness.enterprise.management.auth.model.RegisterUserRequest
@@ -13,7 +14,7 @@ import com.fitness.enterprise.management.utils.NetworkResult
 import org.json.JSONObject
 import javax.inject.Inject
 
-class UserAuthRepository @Inject constructor(private val authUserApi: AuthUserApi) {
+class UserAuthRepository @Inject constructor(private val authUserApi: AuthUserApi, private val sessionManager: SessionManager) {
 
     private val _registerUserLiveData = MutableLiveData<NetworkResult<RegisterUserResponse>>()
     val registerUserLiveData: LiveData<NetworkResult<RegisterUserResponse>>
@@ -42,12 +43,11 @@ class UserAuthRepository @Inject constructor(private val authUserApi: AuthUserAp
         val loginUserResponse = authUserApi.loginUser(loginUserRequest)
         Log.d(TAG, loginUserResponse.body().toString())
         if (loginUserResponse.isSuccessful && loginUserResponse.body() != null) {
-
             val loginResponseFromServer = loginUserResponse.body()!!
             loginResponseFromServer.userName = loginUserRequest.username
             loginResponseFromServer.roleType = loginUserRequest.roleType
-
             _loginUserLiveData.postValue(NetworkResult.Success(loginResponseFromServer))
+            sessionManager.loginUserLiveData.postValue(loginResponseFromServer)
         } else if (loginUserResponse.errorBody() != null) {
             val errorObj = JSONObject(loginUserResponse.errorBody()!!.charStream().readText())
             _loginUserLiveData.postValue(NetworkResult.Error(errorObj.getString("message")))

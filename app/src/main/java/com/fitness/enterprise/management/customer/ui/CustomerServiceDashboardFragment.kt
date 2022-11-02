@@ -80,7 +80,14 @@ class CustomerServiceDashboardFragment : Fragment() {
             when(it) {
                 is NetworkResult.Success -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
-                    customerServiceAdapter.submitList(it.data)
+                    if (it.data.isNullOrEmpty()) {
+                        binding.customerServiceDashboard.visibility = View.GONE
+                        binding.noCustomersMessage.visibility = View.VISIBLE
+                    } else {
+                        binding.customerServiceDashboard.visibility = View.VISIBLE
+                        binding.noCustomersMessage.visibility = View.GONE
+                        customerServiceAdapter.submitList(it.data)
+                    }
                 }
                 is NetworkResult.Error -> {
                     binding.progressIndicatorLayout.progressIndicator.visibility = View.GONE
