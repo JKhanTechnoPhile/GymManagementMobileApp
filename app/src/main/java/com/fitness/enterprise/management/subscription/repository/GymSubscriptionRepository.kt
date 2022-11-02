@@ -41,7 +41,7 @@ class GymSubscriptionRepository @Inject constructor(private val gymSubscriptionA
         }
     }
 
-    suspend fun getAllGymSubscriptionsByGymCode(gymCode: Int) {
+    suspend fun getAllGymSubscriptionsByGymCode(gymCode: String) {
         _gymSubscriptionsLiveData.postValue(NetworkResult.Loading())
         val allGymBranches = gymSubscriptionApi.getAllGymSubscriptionsByGymCode(gymCode)
         Log.d(Constants.TAG,  allGymBranches.body().toString())

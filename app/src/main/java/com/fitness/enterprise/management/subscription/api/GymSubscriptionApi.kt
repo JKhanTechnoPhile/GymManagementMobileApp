@@ -11,8 +11,8 @@ interface GymSubscriptionApi {
     @GET("/api/subscriptions/")
     suspend fun getAllGymSubscriptions() : Response<GymSubscriptionResponse>
 
-    @GET("/api/branches/{gymCode}")
-    suspend fun getAllGymSubscriptionsByGymCode(@Path("gymCode") gymCode: Int) : Response<GymSubscriptionResponse>
+    @GET("/api/subscriptions/{gymCode}/")
+    suspend fun getAllGymSubscriptionsByGymCode(@Path("gymCode") gymCode: String) : Response<GymSubscriptionResponse>
 
     @GET("/api/branches/{gymCode}/{gymSubscriptionPlanCode}")
     suspend fun getGymSubscriptionDetails(@Path("gymCode") gymCode: Int, @Path("gymSubscriptionPlanCode") gymSubscriptionPlanCode: Int) : Response<GymSubscription>

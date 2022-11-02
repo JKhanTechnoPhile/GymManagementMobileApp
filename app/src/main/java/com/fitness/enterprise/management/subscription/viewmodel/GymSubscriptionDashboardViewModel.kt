@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fitness.enterprise.management.auth.di.SessionManager
 import com.fitness.enterprise.management.branch.model.GymBranch
 import com.fitness.enterprise.management.subscription.model.GymSubscription
 import com.fitness.enterprise.management.subscription.model.GymSubscriptionCreateRequest
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GymSubscriptionDashboardViewModel @Inject constructor(private val gymSubscriptionRepository: GymSubscriptionRepository) : ViewModel() {
+class GymSubscriptionDashboardViewModel @Inject constructor(private val gymSubscriptionRepository: GymSubscriptionRepository,
+private val sessionManager: SessionManager) : ViewModel() {
 
     val gymSubscriptionsData get() = gymSubscriptionRepository.gymSubscriptionsLiveData
     val gymSubscriptionData get() = gymSubscriptionRepository.gymSubscriptionDetailsLiveData
@@ -30,9 +32,12 @@ class GymSubscriptionDashboardViewModel @Inject constructor(private val gymSubsc
         }
     }
 
-    fun getGymSubscriptionsByCode(gymCode: Int) {
+    fun getGymSubscriptionsByCode() {
         viewModelScope.launch {
-            gymSubscriptionRepository.getAllGymSubscriptionsByGymCode(gymCode)
+            val gymCode = sessionManager.loginUserLiveData.value?.loggedInUser?.gymBranchCode
+            if (gymCode != null) {
+                gymSubscriptionRepository.getAllGymSubscriptionsByGymCode(gymCode)
+            }
         }
     }
 

@@ -33,13 +33,20 @@ class CustomerOnboardingFragment : Fragment() {
 
     private var selectedCustomerIdType: UserIdTypeEnum? = null
 
+    private var viewOnly: Boolean? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        viewOnly = arguments?.getBoolean("viewOnly", false)
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
             title = "Customer Registration"
+            viewOnly?.let {
+                if (it) {
+                    title = "Customer Details"
+                }
+            }
         }
 
         val jsonCustomerDetails = arguments?.getString("customerDetails")
@@ -142,6 +149,11 @@ class CustomerOnboardingFragment : Fragment() {
             binding.customerIdTypeTextField.editText?.setText(it.customerIdType)
 
             binding.customerIdNumberTextField.editText?.setText(it.customerIdProof)
+        }
+        viewOnly?.let {
+            if (it) {
+                binding.registerCustomerButton.visibility = View.INVISIBLE
+            }
         }
     }
 }
