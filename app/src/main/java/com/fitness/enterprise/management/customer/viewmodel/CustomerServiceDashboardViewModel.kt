@@ -26,7 +26,10 @@ class CustomerServiceDashboardViewModel @Inject constructor(private val customer
 
     fun getAllCustomers() {
         viewModelScope.launch {
-            customerRepository.getAllCustomers()
+            val gymCode = getBranchCode()
+            if (gymCode != null) {
+                customerRepository.getAllCustomersByGymCode(gymCode)
+            }
         }
     }
 
